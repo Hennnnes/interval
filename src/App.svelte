@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from 'svelte';
+
 	// 1 Set = "Aufgabe"
 	// 1 Set hat Dauer und Pausedauer
 	// 1 Runde enthält X Sets
@@ -18,14 +20,32 @@
 	let active = false;
 	let disabled = false;
 	let done = false;
+	let notificationsAllowed = false;
+
+	function askForPermission() {
+		if ("Notification" in window) {
+			if (Notification.permission !== 'denied') {
+				Notification.requestPermission(function (permission) {
+					// If the user accepts, let's create a notification
+					if (permission === "granted") {
+						notificationsAllowed = true;
+					}
+				});
+			}
+		}
+	};
 
 	async function run() {
 		disabled = false;
 		disabled = true;
+		askForPermission();
 		for (currentRound = 1; currentRound <= rounds; currentRound++) {
 			for (currentSet = 1; currentSet <= setsPerRound; currentSet++) {
 				state = 'active';
 				active = true;
+				if (notificationsAllowed) {
+					new Notification("Interval: Let's go!");
+				}
 				await startInterval(setDuration);
 
 				// prevent duplicate breaks
@@ -33,6 +53,9 @@
 					break;
 				}
 
+				if (notificationsAllowed) {
+					new Notification("Interval: Pause!");
+				}
 				state = 'break';
 				active = false;
 				await startInterval(setBreakDuration);
@@ -43,9 +66,15 @@
 			}
 			state = 'round-break';
 			active = false;
+			if (notificationsAllowed) {
+				new Notification("Interval: Pause!");
+			}
 			await startInterval(roundBreak);
 		}
 		done = true;
+		if (notificationsAllowed) {
+			new Notification("Interval: Done 🎉!");
+		}
 		disabled = false;
 	}
 
