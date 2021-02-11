@@ -120,7 +120,7 @@
     }
 
     .state--active {
-        background-color: #588b8b;
+        background-color: #8ebcbb;
     }
     .state--break {
         background-color: #c8553d;
@@ -167,6 +167,19 @@
     li:not(:last-of-type):after {
         content: '|';
         margin: 0 1ch;
+    }
+
+    @media (orientation: portrait) {
+        h2 {
+            font-size: 15vw;
+        }
+        .timer {
+           font-size: 50vw;
+        }
+
+        li {
+            font-size: 4vh;
+        }
     }
 
 </style>
