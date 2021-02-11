@@ -1,6 +1,4 @@
 <script>
-    import { onMount } from 'svelte';
-
     // 1 Set = "Aufgabe"
     // 1 Set hat Dauer und Pausedauer
     // 1 Runde enthält X Sets
