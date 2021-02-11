@@ -3,8 +3,9 @@
     "theme_color": "#ff3e00",
     "name": "Interval",
     "short_name": "Interval",
-    "display": "standalone",
+    "display": "fullscreen",
     "start_url": "/",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "192x192.png",
