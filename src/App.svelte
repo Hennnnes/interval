@@ -106,8 +106,8 @@
             <h2>{#if active}Let's Go!{:else}Pause{/if}</h2>
             <p class="timer">{time}</p>
             <ul>
-                <li>round: {currentRound} / { rounds }</li>
                 <li>set: {currentSet} / { setsPerRound }</li>
+                <li>round: {currentRound} / { rounds }</li>
             </ul>
         {/if}
     </div>
