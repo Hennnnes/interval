@@ -20,6 +20,12 @@
     let done = false;
     let notificationsAllowed = false;
 
+    const audioHint = new Audio('/tone.mp3');
+    let canPlay = false;
+    audioHint.addEventListener("canplaythrough", event => {
+        canPlay = true;
+    });
+
     function askForPermission() {
         if ("Notification" in window) {
             if (Notification.permission !== 'denied') {
@@ -33,6 +39,13 @@
         }
     };
 
+    function notify(string) {
+        if (notificationsAllowed) {
+            new Notification(string);
+        }
+        audioHint.play();
+    }
+
     async function run() {
         disabled = false;
         disabled = true;
@@ -41,9 +54,7 @@
             for (currentSet = 1; currentSet <= setsPerRound; currentSet++) {
                 state = 'active';
                 active = true;
-                if (notificationsAllowed) {
-                    new Notification("Interval: Let's go!");
-                }
+                notify("Interval: Let's go!")
                 await startInterval(setDuration);
 
                 // prevent duplicate breaks
@@ -51,9 +62,7 @@
                     break;
                 }
 
-                if (notificationsAllowed) {
-                    new Notification("Interval: Pause!");
-                }
+                notify("Interval: Pause!");
                 state = 'break';
                 active = false;
                 await startInterval(setBreakDuration);
@@ -64,15 +73,11 @@
             }
             state = 'round-break';
             active = false;
-            if (notificationsAllowed) {
-                new Notification("Interval: Pause!");
-            }
+            notify("Interval: Pause!");
             await startInterval(roundBreak);
         }
         done = true;
-        if (notificationsAllowed) {
-            new Notification("Interval: Done 🎉!");
-        }
+        notify("Interval: Done 🎉!");
         disabled = false;
     }
 
